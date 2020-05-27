@@ -37,6 +37,14 @@ def main():
 	ap.add_argument("-c", "--confidence", type=float, default=0.5,
 		help="minimum probability to filter weak detections")
 	args = vars(ap.parse_args())
+
+	# specify absolute path
+	if args['face'] == 'face_detector':
+		args['face'] = os.path.join(BASE_PATH, 'face_detector')
+
+	if args['model'] == 'mask_detector.model':
+		args['model'] = os.path.join(BASE_PATH, 'mask_detector.model')
+	
 	detect_from_video(args)
 
 if __name__ == "__main__":

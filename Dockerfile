@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR app
 COPY . .
+COPY requirements.txt /tmp/requirements.txt
+RUN cat /tmp/requirements.txt | xargs -n 1 -L 1 pip3 install --no-cache-dir
 RUN python setup.py install
 
 CMD ["bash"]

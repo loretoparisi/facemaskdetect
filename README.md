@@ -12,7 +12,7 @@ To build the docker image please do:
 docker build . -t facemaskdetect
 ```
 
-## How to install
+### How to install
 We provide a python setup to install a command line script `facemaskdetect`:
 
 ```bash
@@ -20,13 +20,18 @@ python setup.py install
 ```
 
 ## How to run
-To run the installed script please then specify the model path `-m` and the face model path `-f`:
+To run the installed script to get `JSON` output:
 
 ```
 facemaskdetect -i examples/example_01.png -o json
 ```
 
-## How to run the container on linux
+for image output with bounding boxes:
+```
+facemaskdetect -i examples/test.jpeg -o out.png
+```
+
+### How to run the container on linux
 To run on a `linux` host without X server support:
 ```bash
 docker run --rm -it -v $(pwd):/app facemaskdetect bash
@@ -38,7 +43,7 @@ to enable X server support:
 docker run --rm -it --net=host --ipc=host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --env="QT_X11_NO_MITSHM=1" -v $(pwd):/app facemaskdetect bash
 ```
 
-## How to run the container on macOS
+### How to run the container on macOS
 To run on `macOS` with X server support enabled, first be sure to have xquartz and socat installed:
 
 ```bash
@@ -59,7 +64,7 @@ then in another window (important!) run docker with display forwarding:
 docker run  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -v $(pwd):/app facemaskdetect bash
 ```
 
-## How to manually run the detector
+## Mask detection from still image
 To detect from a still image with camera output
 ```bash
 python facemaskdetect/detector.py -i ../examples/example_01.png -o cam
@@ -102,10 +107,10 @@ To JSON output format looks like:
 ]
 ```
 
-To detect from web cam
+## Mask detection from video
+To continuosuly detect from a video stream of a camera (like web cam):
 ```bash
-cd facemaskdetect/
-python camera.py 
+python facemaskdetect/camera.py 
 ```
 
 ## Sample application

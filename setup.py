@@ -14,5 +14,7 @@ setup(
         "console_scripts": [
             "facemaskdetect = facemaskdetect.detector:main",
         ]
-    }
+    },
+    package_data={'facemaskdetect': ['face_detector/*', '*.model']},
+    include_package_data=True
 )

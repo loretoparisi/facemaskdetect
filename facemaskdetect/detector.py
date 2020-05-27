@@ -53,7 +53,7 @@ def main():
 
 	if args['model'] == 'mask_detector.model':
 		args['model'] = os.path.join(BASE_PATH, 'mask_detector.model')
-	
+	print(args)
 	res = detect_from_image(args)
 	if res:
 		print(res)
