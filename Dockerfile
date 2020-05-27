@@ -12,5 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgtk2.0-dev
 
 WORKDIR app
+COPY . .
+RUN python setup.py install
 
 CMD ["bash"]

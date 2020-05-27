@@ -67,7 +67,9 @@ def detect_from_image(args):
 	net.setInput(blob)
 	detections = net.forward()
 
-	json_out = {}
+	# it will contains all detections
+	json_detections = []
+
 	# loop over the detections
 	for i in range(0, detections.shape[2]):
 		# extract the confidence (i.e., probability) associated with
@@ -104,6 +106,7 @@ def detect_from_image(args):
 			# the bounding box and text
 			label = "Mask" if mask > withoutMask else "No Mask"
 			
+			json_out = {}
 			json_out['label'] = "{}".format(label)
 			json_out['accuracy'] = "{:.2f}".format(max(mask, withoutMask))
 			json_out['box'] = {}
@@ -112,6 +115,8 @@ def detect_from_image(args):
 			json_out['box']['start_y'] = startY
 			json_out['box']['end_x'] = endX
 			json_out['box']['end_y'] = endY
+
+			json_detections.append(json_out)
 
 			color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
 			# include the probability in the label
@@ -130,7 +135,7 @@ def detect_from_image(args):
 		cv2.waitKey(0)
 		return None
 	elif args["output"] == 'json':
-		json_str = json.dumps(json_out, indent=4, cls=NumpyEncoder)
+		json_str = json.dumps(json_detections, indent=4, cls=NumpyEncoder)
 		return json_str
 	else:
 		cv2.imwrite(args["output"], image)

@@ -6,18 +6,10 @@ Source code adpted from Adrian Rosebrock article available here:
 https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/
 
 ## How to build
-To build a standalone python libray:
+To build the docker image please do:
 
 ```bash
 docker build . -t facemaskdetect
-docker run --rm -it -v $(pwd):/app facemaskdetect bash
-cat requirements.txt | xargs -n 1 -L 1 pip install --no-cache-dir -t lib/modules
-```
-
-while to build system-wide please remove the `-t` option:
-
-```bash
-cat requirements.txt | xargs -n 1 -L 1 pip install --no-cache-dir
 ```
 
 ## How to install
@@ -27,10 +19,11 @@ We provide a python setup to install a command line script `facemaskdetect`:
 python setup.py install
 ```
 
+## How to run
 To run the installed script please then specify the model path `-m` and the face model path `-f`:
 
 ```
-facemaskdetect -m facemaskdetect/mask_detector.model -f facemaskdetect/face_detector -i examples/example_01.png -o json
+facemaskdetect -i examples/example_01.png -o json
 ```
 
 ## How to run the container on linux
@@ -66,38 +59,47 @@ then in another window (important!) run docker with display forwarding:
 docker run  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -v $(pwd):/app facemaskdetect bash
 ```
 
-## How to run the detector
+## How to manually run the detector
 To detect from a still image with camera output
 ```bash
-cd facemaskdetect/
-python detector.py -i ../examples/example_01.png -o cam
+python facemaskdetect/detector.py -i ../examples/example_01.png -o cam
 ```
 
 To detect from a still image with file output
 ```bash
-cd facemaskdetect/
-python detector.py -i ../examples/example_02.png -o output.png
+python facemaskdetect/detector.py -i ../examples/example_02.png -o output.png
 ```
 
 To detect from a still image with `JSON` output
 ```bash
-cd facemaskdetect/
-python detector.py -i ../examples/example_01.png -o json
+python facemaskdetect/detector.py -i ../examples/example_01.png -o json
 ```
 
 To JSON output format looks like:
 
 ```json
-{
-    "label": "Mask",
-    "accuracy": "1.00",
-    "box": {
-        "start_x": 327,
-        "start_y": 62,
-        "end_x": 402,
-        "end_y": 177
+[
+    {
+        "label": "Mask",
+        "accuracy": "0.93",
+        "box": {
+            "start_x": 173,
+            "start_y": 161,
+            "end_x": 565,
+            "end_y": 750
+        }
+    },
+    {
+        "label": "Mask",
+        "accuracy": "0.99",
+        "box": {
+            "start_x": 394,
+            "start_y": 411,
+            "end_x": 685,
+            "end_y": 775
+        }
     }
-}
+]
 ```
 
 To detect from web cam

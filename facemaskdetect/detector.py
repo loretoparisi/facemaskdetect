@@ -17,7 +17,7 @@ except:
 	from .detect_mask_image import detect_from_image
 
 def detect(image_path, 
-	confidence=0.5, 
+	confidence=0.8, 
 	output='json'):
 
 	args = {}
@@ -40,12 +40,19 @@ def main():
 	ap.add_argument("-m", "--model", type=str,
 		default="mask_detector.model",
 		help="path to trained face mask detector model")
-	ap.add_argument("-c", "--confidence", type=float, default=0.5,
+	ap.add_argument("-c", "--confidence", type=float, default=0.8,
 		help="minimum probability to filter weak detections")
 	ap.add_argument("-o", "--output", type=str,
 		default="cam",
 		help="specify a camera (cam) | png | json")
 	args = vars(ap.parse_args())
+
+	# specify absolute path
+	if args['face'] == 'face_detector':
+		args['face'] = os.path.join(BASE_PATH, 'face_detector')
+
+	if args['model'] == 'mask_detector.model':
+		args['model'] = os.path.join(BASE_PATH, 'mask_detector.model')
 	
 	res = detect_from_image(args)
 	if res:
