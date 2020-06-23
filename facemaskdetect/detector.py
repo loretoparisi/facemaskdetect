@@ -53,10 +53,13 @@ def main():
 
 	if args['model'] == 'mask_detector.model':
 		args['model'] = os.path.join(BASE_PATH, 'mask_detector.model')
-	print(args)
-	res = detect_from_image(args)
-	if res:
+	
+	if args["output"] == 'json':
+		res = detect_from_image(args)
 		print(res)
+	else:
+		detect_from_image(args)
+		sys.exit(0)
 
 if __name__ == "__main__":
     main()
