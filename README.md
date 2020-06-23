@@ -61,23 +61,26 @@ socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"
 then in another window (important!) run docker with display forwarding:
 
 ```bash
-docker run  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --rm -it -v $(pwd):/app facemaskdetect bash
+export IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+xhost +$IP
+xhost +local:docker
+docker run --rm -it -e DISPLAY=$IP:0 -e XAUTHORITY=/.Xauthority --net host -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/.Xauthority:/.Xauthority  -v $(pwd):/app facemaskdetect bash
 ```
+
 
 ## Mask detection from still image
 To detect from a still image with camera output
 ```bash
-python facemaskdetect/detector.py -i ../examples/example_01.png -o cam
-```
+python facemaskdetect/detector.py -i examples/example_01.png -o cam
+``` 
 
 To detect from a still image with file output
-```bash
-python facemaskdetect/detector.py -i ../examples/example_02.png -o output.png
+python facemaskdetect/detector.py -i examples/example_02.png -o output.png
 ```
 
 To detect from a still image with `JSON` output
 ```bash
-python facemaskdetect/detector.py -i ../examples/example_01.png -o json
+python facemaskdetect/detector.py -i examples/example_01.png -o json
 ```
 
 To JSON output format looks like:
