@@ -131,10 +131,10 @@ def detect_from_image(args):
 
 	if args["output"] == 'cam':
 		# show the output image
+		cv2.startWindowThread()
 		cv2.imshow("Output", image)
-		cv2.waitKey(0)
+		cv2.waitKey(0) 
 		cv2.destroyAllWindows()
-		return None
 	elif args["output"] == 'json':
 		json_str = json.dumps(json_detections, indent=4, cls=NumpyEncoder)
 		return json_str
