@@ -1,4 +1,4 @@
 numpy
-tensorflow==2.5.2
+tensorflow==2.6.4
 opencv-python
 imutils
