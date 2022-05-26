@@ -7,7 +7,7 @@ setup(
     description='Face masks detector with Tensorflow Keras and MobileNet V2',
     packages=["facemaskdetect"],
     install_requires=['numpy',
-        'tensorflow==2.5.2',
+        'tensorflow==2.7.2',
         'opencv-python',
         'imutils'],
     entry_points = {
